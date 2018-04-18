@@ -96,6 +96,13 @@ BuildRequires: py2-fs
 BuildRequires: py2-lizard
 BuildRequires: py2-flawfinder
 BuildRequires: python-ldap
+BuildRequires: py2-asn1crypto
+BuildRequires: py2-cffi
+BuildRequires: py2-cryptography
+BuildRequires: py2-ipaddress
+BuildRequires: py2-kerberos.spec
+BuildRequires: py2-pycparser.spec
+BuildRequires: py2-requests-kerberos.spec
 
 %prep
 
