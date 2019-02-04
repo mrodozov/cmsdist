@@ -54,7 +54,7 @@ export PROTOBUF_STRIP_PREFIX=${PROTOBUF_STRIP_PREFIX}
 export LIBJPEG_TURBO_STRIP_PREFIX=${LIBJPEG_TURBO_STRIP_PREFIX}
 
 #temp directory
-rm -rf ../build
+#rm -rf ../build
 
 ./configure
 
@@ -83,6 +83,7 @@ bindir="$PWD/tensorflow_cc/bin"
 rm -rf $incdir $libdir $bindir
 mkdir -p $incdir $libdir $bindir
 
+cp -rpv $PWD/bazel-out/k8-opt/genfiles/tensorflow/include/* $incdir/
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
 cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
@@ -90,72 +91,6 @@ cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so 
 cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
 
 #Download depencies used by tensorflow and copy to include dir
-
-tensorflow/contrib/makefile/download_dependencies.sh
-tdir=$PWD
-dwnldir=$PWD/tensorflow/contrib/makefile/downloads
-gendir=$PWD/bazel-genfiles
-
-# tensorflow headers
-cd ${tdir}
-header_list=`find tensorflow -type f -name "*.h" | grep -v contrib`
-for my_header in ${header_list}
-do
-  my_header_dir=$(dirname "${my_header}")
-  mkdir -p ${incdir}/${my_header_dir}
-  cp -p ${my_header} ${incdir}/${my_header_dir}
-done
-# generated headers
-cd ${gendir}
-header_list=`find tensorflow -type f -name "*.h"`
-for my_header in ${header_list}
-do
-  my_header_dir=$(dirname "${my_header}")
-  mkdir -p ${incdir}/${my_header_dir}
-  cp -p ${my_header} ${incdir}/${my_header_dir}
-done
-# third party headers
-cd ${tdir}
-header_list=`find third_party -type f -name "*.h" | grep -v contrib`
-for my_header in ${header_list}
-do
-  my_header_dir=$(dirname "${my_header}")
-  mkdir -p ${incdir}/${my_header_dir}
-  cp -p ${my_header} ${incdir}/${my_header_dir}
-done
-# third party eigen headers
-header_list=`find third_party/eigen3 -type f | grep -v contrib`
-for my_header in ${header_list}
-do
-  my_header_dir=$(dirname "${my_header}")
-  mkdir -p ${incdir}/${my_header_dir}
-  cp -p ${my_header} ${incdir}/${my_header_dir}
-done
-# downloaded headers
-cd ${dwnldir}
-header_list=`find gemmlowp googletest re2 -type f -name "*.h"`
-for my_header in ${header_list}
-do
-  my_header_dir=$(dirname "${my_header}")
-  mkdir -p ${incdir}/${my_header_dir}
-  cp -p ${my_header} ${incdir}/${my_header_dir}
-done
-# downloaded eigen headers
-header_list=`find eigen/Eigen eigen/unsupported -type f`
-for my_header in ${header_list}
-do
-  my_header_dir=$(dirname "${my_header}")
-  mkdir -p ${incdir}/${my_header_dir}
-  cp -p ${my_header} ${incdir}/${my_header_dir}
-done
-# downloaded nsync headers
-header_list=`find nsync/public -name '*.h' -type f`
-for my_header in ${header_list}
-do
-  cp -p ${my_header} ${incdir}/
-done
-# eigen signature file
-cp -p eigen/signature_of_eigen3_matrix_library ${incdir}/eigen/ || exit 1
 
 %install
 
