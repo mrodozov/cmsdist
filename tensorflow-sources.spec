@@ -1,4 +1,4 @@
-### RPM external tensorflow-sources master_170119
+### RPM external tensorflow-sources 1.12.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
@@ -8,7 +8,7 @@
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
 
 BuildRequires: bazel
-Requires: gcc protobuf java-env python py2-numpy py2-enum34 py2-mock py2-wheel py2-Keras-Applications py2-Keras-Preprocessing py2-setuptools libjpeg-turbo eigen
+Requires: gcc protobuf java-env python nasm py2-numpy py2-enum34 py2-mock py2-wheel py2-Keras-Applications py2-Keras-Preprocessing py2-setuptools libjpeg-turbo eigen
 
 %prep
 
@@ -83,12 +83,12 @@ bindir="$PWD/tensorflow_cc/bin"
 rm -rf $incdir $libdir $bindir
 mkdir -p $incdir $libdir $bindir
 
-cp -rpv $PWD/bazel-out/k8-opt/genfiles/tensorflow/include/* $incdir/
-cp -v $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
-cp -v $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
+cp -rp $PWD/bazel-out/k8-opt/genfiles/tensorflow/include/* $incdir/
+cp  $PWD/bazel-bin/tensorflow/libtensorflow_cc.so $libdir
+cp  $PWD/bazel-bin/tensorflow/libtensorflow_framework.so $libdir
+cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libcpu_function_runtime.so $libdir
+cp  $PWD/bazel-bin/tensorflow/compiler/tf2xla/libxla_compiled_cpu_function.so $libdir
+cp  $PWD/bazel-bin/tensorflow/compiler/aot/tfcompile $bindir
 
 #Download depencies used by tensorflow and copy to include dir
 
