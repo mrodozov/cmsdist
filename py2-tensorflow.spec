@@ -1,11 +1,11 @@
-### RPM external py2-tensorflow 1.13.0rc1
+### RPM external py2-tensorflow 1.12.0
 ## INITENV +PATH PYTHON27PATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
 ## INITENV +PATH PYTHON3PATH %{i}/${PYTHON3_LIB_SITE_PACKAGES}
 
 Source: none
 
-BuildRequires: tensorflow-sources py2-pip
-Requires: python python3 py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock py2-Werkzeug py2-enum34 py2-Keras-Applications py2-Keras-Preprocessing libjpeg-turbo eigen protobuf nasm py2-wheel
+BuildRequires: tensorflow-sources tensorflow-python3-sources py2-pip
+Requires: python python3 py2-funcsigs py2-protobuf py2-pbr py2-six py2-packaging py2-appdirs py2-setuptools py2-pyparsing py2-numpy py2-mock py2-Werkzeug py2-enum34 py2-Keras-Applications py2-Keras-Preprocessing py2-wheel libjpeg-turbo eigen protobuf nasm
 
 %prep
 
@@ -29,4 +29,3 @@ pip install --user -v ${TENSORFLOW_SOURCES_ROOT}/tensorflow-%{realversion}-%{ten
 
 %install
 perl -p -i -e "s|^#!.*python(.*)|#!/usr/bin/env python$1|" %{i}/bin/*
-

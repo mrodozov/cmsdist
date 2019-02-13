@@ -1,8 +1,8 @@
-### RPM external tensorflow-python3-sources 1.13.0rc1
+### RPM external tensorflow-python3-sources 1.12.0
 #Source: https://github.com/tensorflow/tensorflow/archive/v%{realversion}.tar.gz
 # NOTE: whenever the version of tensorflow changes, update it also in tensorflow-c tensorflow-cc and py2-tensorflow
 %define isslc6amd64 %(case %{cmsplatf} in (slc6_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
-%define tag 8530a47abcbf2e5f0af792e26a45f18022c327ec
+%define tag aaf165ad87c7de049344df451b45275d300ef164
 %define branch cms/%{realversion}
 %define github_user mrodozov
 Source: git+https://github.com/%{github_user}/tensorflow.git?obj=%{branch}/%{tag}&export=tensorflow-%{realversion}&output=/tensorflow-%{realversion}-%{tag}.tgz
