@@ -17,8 +17,11 @@ Requires: gcc protobuf java-env python3 nasm py2-numpy py2-enum34 py2-mock py2-w
 %build
 
 export PYTHON_BIN_PATH=`which python3`
-
-echo $PYTHON_BIN_PATH
+# introduce a hack to link calls to python -> python3
+mkdir mybin
+ln -s ${PYTHON_BIN_PATH} mybin/python
+export PATH=`pwd`/mybin:${PATH}
+# end of hack, remove when fixed
 export TF_NEED_JEMALLOC=0
 export TF_NEED_HDFS=0
 export CC_OPT_FLAGS=-march=core2
