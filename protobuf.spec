@@ -25,7 +25,6 @@ BuildRequires: autotools
 %build
 ./autogen.sh
 
-chmod +x ./gmock/build-aux/config.{sub,guess}
 ./configure --prefix %{i} \
     --disable-static \
     --disable-dependency-tracking \
