@@ -6,17 +6,22 @@
 Source: git+https://github.com/%{github_user}/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 Requires: tbb
 
-Patch0: mkfit-arm-fix
-Patch1: mkfit-ppc-fix
+Patch0: mkfit-non-intel-fix
 
 %prep
 %setup -q -n %{n}-%{realversion}
 
-%ifarch aarch64
-%patch0 -p1
-%endif
 %ifarch ppc64le
-%patch1 -p1
+export header_name="htmintrin.h"
+%endif
+%ifarch aarch64
+export header_name="arm_neon.h"
+%endif
+
+%ifnarch x86_64
+%patch0 -p1
+export header_location=$(find  `echo | gcc -E -Wp,-v - 2>&1 | grep -v ignoring | grep -v "#include" | head -1` -name $header_name )
+cp ${header_location} %{_builddir}/%{n}-%{realversion}/immintrin.h
 %endif
 
 %build

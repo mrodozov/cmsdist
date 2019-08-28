@@ -1,26 +1,7 @@
-diff --git a/Matriplex/MatriplexCommon.h b/Matriplex/MatriplexCommon.h
-index 11bad03..9de192d 100644
---- a/Matriplex/MatriplexCommon.h
-+++ b/Matriplex/MatriplexCommon.h
-@@ -12,7 +12,7 @@
- // Intrinsics -- preamble
- //==============================================================================
- 
--#include "immintrin.h"
-+#include "arm_neon.h"
- 
- #if defined(MPLEX_USE_INTRINSICS)
- 
 diff --git a/Matriplex/test/m512_test.cxx b/Matriplex/test/m512_test.cxx
-index efab878..88e1a89 100644
+index efab878..2076623 100644
 --- a/Matriplex/test/m512_test.cxx
 +++ b/Matriplex/test/m512_test.cxx
-@@ -1,4 +1,4 @@
--#include "immintrin.h"
-+#include "arm_neon.h"
- 
- #include <cstdio>
- 
 @@ -15,8 +15,8 @@ __m512 all_ones = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
  
  int main()
@@ -121,29 +102,3 @@ index 705053b..0ddd074 100644
  		}
   
   
-diff --git a/test/mtt1.1.cxx b/test/mtt1.1.cxx
-index 3087b86..cfbe08d 100644
---- a/test/mtt1.1.cxx
-+++ b/test/mtt1.1.cxx
-@@ -5,7 +5,7 @@
- // icc -mavx  -std=c++11 mtt1.1.cxx -o mtt1.1
- //
- 
--#include <immintrin.h>
-+#include <arm_neon.h>
- 
- #include <cstdio>
- 
-diff --git a/test/mtt1.cxx b/test/mtt1.cxx
-index 7031a0c..47d5960 100644
---- a/test/mtt1.cxx
-+++ b/test/mtt1.cxx
-@@ -4,7 +4,7 @@
- // icc -mmic  -std=c++11 mtt1.cxx -o mtt1 && scp mtt1 mic0:
- //
- 
--#include <immintrin.h>
-+#include <arm_neon.h>
- 
- #include <cstdio>
- 
