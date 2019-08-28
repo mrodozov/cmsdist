@@ -19,9 +19,8 @@ export header_name="arm_neon.h"
 %endif
 
 %ifnarch x86_64
+for i in `grep -r "immintrin.h" . | tr ":" " " | awk '{print $1}' | sort -u`; do sed -i -e 's/immintrin.h/${header_name}/g' $i; done
 %patch0 -p1
-export header_location=$(find  `echo | gcc -E -Wp,-v - 2>&1 | grep -v ignoring | grep -v "#include" | head -1` -name $header_name )
-cp ${header_location} %{_builddir}/%{n}-%{realversion}/immintrin.h
 %endif
 
 %build
