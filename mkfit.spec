@@ -12,14 +12,13 @@ Patch0: mkfit-non-intel-fix
 %setup -q -n %{n}-%{realversion}
 
 %ifarch ppc64le
-export header_name="htmintrin.h"
+for i in `grep -r "immintrin.h" . | tr ":" " " | awk '{print $1}' | sort -u`; do sed -i -e 's/immintrin.h/htmintrin.h/g' $i; done
 %endif
 %ifarch aarch64
-export header_name="arm_neon.h"
+for i in `grep -r "immintrin.h" . | tr ":" " " | awk '{print $1}' | sort -u`; do sed -i -e 's/immintrin.h/arm_neon.h/g' $i; done
 %endif
 
 %ifnarch x86_64
-for i in `grep -r "immintrin.h" . | tr ":" " " | awk '{print $1}' | sort -u`; do sed -i -e 's/immintrin.h/${header_name}/g' $i; done
 %patch0 -p1
 %endif
 
