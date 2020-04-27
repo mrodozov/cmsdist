@@ -9,6 +9,7 @@ Requires: py2-scipy
 Requires: py2-Keras
 Requires: py2-Theano
 Requires: py2-scikit-learn
+Requires: py2-rootpy
 Requires: py2-tensorflow py3-tensorflow
 Requires: py2-googlePackages
 
@@ -24,7 +25,7 @@ Requires: py2-downhill
 Requires: py2-theanets
 Requires: py2-xgboost
 Requires: py2-llvmlite
-Requires: py2-numba
+Requires: py3-numba
 Requires: py2-hep_ml
 Requires: py2-rep
 Requires: py2-uncertainties
@@ -35,7 +36,6 @@ Requires: py2-h5py
 Requires: py2-h5py-cache
 Requires: py2-root_pandas
 Requires: py2-uproot
-Requires: py2-oamap
 
 #this DOES NOT depend on numpy..
 Requires: py2-xrootdpyfs
