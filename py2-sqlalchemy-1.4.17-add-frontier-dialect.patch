@@ -30,18 +30,6 @@ index 0000000..5cbb3d7
 +
 +    def do_rollback(self, dbapi_connection):
 +        pass
-diff --git a/lib/sqlalchemy/dialects/oracle/__init__.py b/lib/sqlalchemy/dialects/oracle/__init__.py
-index 9f1e15b..d06e3e9 100644
---- a/lib/sqlalchemy/dialects/oracle/__init__.py
-+++ b/lib/sqlalchemy/dialects/oracle/__init__.py
-@@ -8,6 +8,7 @@
- from . import base  # noqa
- from . import cx_oracle  # noqa
- from . import zxjdbc  # noqa
-+from . import frontier  # noqa
- from .base import BFILE
- from .base import BINARY_DOUBLE
- from .base import BINARY_FLOAT
 diff --git a/lib/sqlalchemy/dialects/oracle/frontier.py b/lib/sqlalchemy/dialects/oracle/frontier.py
 new file mode 100644
 index 0000000..74cde5e
@@ -100,3 +88,15 @@ index 0000000..74cde5e
 +        return self.url_database
 +
 +dialect = OracleDialect_frontier
+diff --git a/lib/sqlalchemy/dialects/oracle/__init__.py b/lib/sqlalchemy/dialects/oracle/__init__.py
+index a6af7d8..cd13ffa 100644
+--- a/lib/sqlalchemy/dialects/oracle/__init__.py
++++ b/lib/sqlalchemy/dialects/oracle/__init__.py
+@@ -7,6 +7,7 @@
+ 
+ from . import base  # noqa
+ from . import cx_oracle  # noqa
++from . import frontier
+ from .base import BFILE
+ from .base import BINARY_DOUBLE
+ from .base import BINARY_FLOAT
