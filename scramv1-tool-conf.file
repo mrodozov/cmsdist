@@ -88,15 +88,6 @@ for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do
   [ -f %i/tools/selected/${stool}.xml ] || continue
   mv %i/tools/selected/${stool}.xml %i/tools/available
 done
-
-#for filen in $(find %i/tools -name '*.xml' -type f) ; do  
-#  bxml=$(basename $filen)
-#  tool="${bxml%.*}"
-#  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`                                                                                            
-#  TOOL_ROOT=`eval echo \\$${uctool}_ROOT`
-#  TOOL_VERSION=`eval echo \\$${uctool}_VERSION`
-#  echo "TOOL_VARS $TOOL_ROOT $TOOL_VERSION"
-#done
   
 if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
   find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool > %i/errors.log 2>&1 || true)
