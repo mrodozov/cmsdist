@@ -10,10 +10,6 @@ Source: none
   toolbase=`eval echo \\\\$${uctool}_ROOT` \
   [ -d ${TOOLFILES_ROOT}/toolfiles/$tool ] || continue
 
-%define InsertToolBasePath \
-  uc_tool=`echo $tool | tr '[a-z-]' '[A-Z_]'` \
-  [ -d ${TOOLFILES_ROOT}/toolfiles/$tool ] || continue
-
 %define CopyScramTools \
   echo ">> Copying tool files from: $tool" \
   for xml in $(find ${TOOLFILES_ROOT}/toolfiles/$tool -type f) ; do \
@@ -24,6 +20,7 @@ Source: none
     export TOOL_ROOT=`echo $toolbase` \
     export TOOL_VERSION=`eval echo \\\\$${uctool}_VERSION` \
     perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/tools/selected/${bxml} \
+    unset TOOL_ROOT TOOL_VERSION \
     echo "  Copied $bxml" \
   done
 %prep
@@ -68,7 +65,6 @@ for tool in %requiredtools %buildrequiredtools %systemtools ${PKGTOOLS_SYSTEM_TO
   %{CheckScramTools}
   DoneTools="$DoneTools $wot "
   %{CopyScramTools}
-  %{InsertToolBasePath}
 done
 for tool in $SkipTools ; do
   [ "X`echo $DoneTools | tr ' ' '\n' | grep ^$tool$`" == "X" ] || continue
