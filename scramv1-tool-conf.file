@@ -8,18 +8,24 @@ Source: none
 %define CheckScramTools \
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'` \
   toolbase=`eval echo \\\\$${uctool}_ROOT` \
-  [ -d $toolbase/etc/scram.d ] || continue
+  [ -d ${TOOLFILES_ROOT}/toolfiles/$tool ] || continue
+
+%define InsertToolBasePath \
+  uc_tool=`echo $tool | tr '[a-z-]' '[A-Z_]'` \
+  [ -d ${TOOLFILES_ROOT}/toolfiles/$tool ] || continue
 
 %define CopyScramTools \
   echo ">> Copying tool files from: $tool" \
-  for xml in $(find $toolbase/etc/scram.d -type f) ; do \
+  for xml in $(find ${TOOLFILES_ROOT}/toolfiles/$tool -type f) ; do \
     bxml=$(basename $xml | tr '[A-Z]' '[a-z]') \
     [ -f %i/tools/selected/$bxml ] && continue \
     [ -f %i/tools/available/$bxml ] && continue \
     cp $xml %i/tools/selected/${bxml} \
+    export TOOL_ROOT=`echo $toolbase` \
+    export TOOL_VERSION=`eval echo \\\\$${uctool}_VERSION` \
+    perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/tools/selected/${bxml} \
     echo "  Copied $bxml" \
   done
-
 %prep
 %build
 
@@ -62,6 +68,7 @@ for tool in %requiredtools %buildrequiredtools %systemtools ${PKGTOOLS_SYSTEM_TO
   %{CheckScramTools}
   DoneTools="$DoneTools $wot "
   %{CopyScramTools}
+  %{InsertToolBasePath}
 done
 for tool in $SkipTools ; do
   [ "X`echo $DoneTools | tr ' ' '\n' | grep ^$tool$`" == "X" ] || continue
@@ -86,6 +93,15 @@ for stool in $(echo %skipreqtools | tr '[A-Z]' '[a-z]') ; do
   mv %i/tools/selected/${stool}.xml %i/tools/available
 done
 
+#for filen in $(find %i/tools -name '*.xml' -type f) ; do  
+#  bxml=$(basename $filen)
+#  tool="${bxml%.*}"
+#  uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'`                                                                                            
+#  TOOL_ROOT=`eval echo \\$${uctool}_ROOT`
+#  TOOL_VERSION=`eval echo \\$${uctool}_VERSION`
+#  echo "TOOL_VARS $TOOL_ROOT $TOOL_VERSION"
+#done
+  
 if [ -e $SCRAMV1_ROOT/bin/chktool ] ; then
   find %i/tools -name '*.xml' -type f | (xargs $SCRAMV1_ROOT/bin/chktool > %i/errors.log 2>&1 || true)
   ToolErrors=`cat %i/errors.log | wc -l | awk '{print $1}'`
