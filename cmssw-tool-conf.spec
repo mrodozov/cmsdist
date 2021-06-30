@@ -13,7 +13,8 @@ Requires: root
 Requires: tbb
 Requires: zlib
 Requires: zstd
-
+Requires: intel-vtune
+Requires: das_client
 
 %define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
 

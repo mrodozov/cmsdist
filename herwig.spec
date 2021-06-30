@@ -1,6 +1,6 @@
 ### RPM external herwig 6.521
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Requires: lhapdf photos 
+Requires: lhapdf photos
 Patch1: herwig-6.520-tauoladummy
 
 %define keep_archives true
