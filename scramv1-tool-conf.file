@@ -164,14 +164,16 @@ echo "beggining vect loops"
 for vect_package in  %vectorized_packages; do
     echo $vect_package
     package_uc=$(echo $vect_package | tr '[a-z-]' '[A-Z_]')
-    r="\n"
+    r=""
     #echo $package_uc
     for v in $(echo %{package_vectorization} | tr '[a-z-]' '[A-Z_]'); do
-    	r=$r+"    <environment name=\"${v}_LIBDIR\" default=\"\$${package_uc}_${v}_ROOT/lib\" type=\"path\"/>\n"
+    	r=$r"    <environment name=\"${v}_LIBDIR\" default=\""
+	r=$r'\$'
+	r=$r${package_uc}_${v}_ROOT/lib"\" type=\"path\"/>\n"
     	#echo $v
     done
-    r=$r+"</client>"
-    perl -p -i -e 's|</client>|$r|g' %i/tools/selected/${vect_package}.xml
+    r=$r'</client>'
+    perl -p -i -e "s|</client>|${r}|g" %i/tools/selected/$(echo $vect_package | tr '[A-Z]' '[a-z]').xml
 done
 %endif
 
