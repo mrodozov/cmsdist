@@ -6,6 +6,7 @@
 ## UPLOAD_DEPENDENCIES dqmgui
 
 BuildRequires: toolfiles
+Requires: gcc
 Requires: herwig
 Requires: libpng
 Requires: OpenBLAS
