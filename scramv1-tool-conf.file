@@ -12,17 +12,21 @@ Source: none
 
 %define CopyScramTools \
   echo ">> Copying tool files from: $tool" \
-  for xml in $(find ${TOOLFILES_ROOT}/toolfiles/$tool -type f) ; do \
+  for xml in $(find ${TOOLFILES_ROOT}/toolfiles/$tool -type f -name "*.xml") ; do \
     bxml=$(basename $xml | tr '[A-Z]' '[a-z]') \
     [ -f %i/tools/selected/$bxml ] && continue \
     [ -f %i/tools/available/$bxml ] && continue \
     cp $xml %i/tools/selected/${bxml} \
     export TOOL_ROOT=`echo $toolbase` \
     export TOOL_VERSION=`eval echo \\\\$${uctool}_VERSION` \
+    #tool_script=${xml%'.xml'}'.sh' \
+    #if [ -f ${tool_script} ]; then $(${tool_script} %i/tools/selected/${bxml});fi \
     perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/tools/selected/${bxml} \
     unset TOOL_ROOT TOOL_VERSION \
     echo "  Copied $bxml" \
-  done
+  done \
+  tool_script=${TOOLFILES_ROOT}/toolfiles/$tool/$(echo $tool | tr '[A-Z]' '[a-z]').sh \
+  if [ -f $tool_script ]; then $($tool_script %i/tools/selected); fi
 %prep
 %build
 
@@ -43,6 +47,21 @@ mkdir -p %i/tools/selected %i/tools/available
 
 %if "%{?skipreqtools:set}" != "set"
 %define skipreqtools %{nil}
+%endif
+
+%if "%{?package_vectorization}" != ""
+PKG_VECTORIZATION=%package_vectorization
+%endif
+
+COMP_ARCH_SPECIFIC_FLAGS=""
+%ifarch x86_64
+COMP_ARCH_SPECIFIC_FLAGS=$(for v in %package_vectorization ; do %{cmsdist_directory}/vectorization/cmsdist_packages.py ${v} ; done)
+%endif
+%ifarch aarch64
+COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"
+%endif
+%ifarch ppc64le
+COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields %ppc64le_build_flags"
 %endif
 
 DoneTools=" "
@@ -164,7 +183,7 @@ for vect_package in  %vectorized_packages; do
 done
 %endif
 
-
 %post
+
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/tools -type f)
 %{relocateCmsFiles} $(find $RPM_INSTALL_PREFIX/%{pkgrel}/lib -type f)

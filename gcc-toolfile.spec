@@ -168,31 +168,19 @@ export GCC_PLUGIN_DIR=$(gcc -print-file-name=plugin)
 
 # NON-empty defaults
 # First of all handle OS specific options.
-%ifos linux
-  export OS_SHAREDFLAGS="-shared -Wl,-E"
-  export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
-  export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
-  export OS_CXXFLAGS="-Werror=overflow"
-%endif
-%ifos darwin
-  export OS_SHAREDFLAGS="-shared -dynamic -single_module"
-  export OS_LDFLAGS="-Wl,-commons -Wl,use_dylibs"
-  export OS_RUNTIME_LDPATH_NAME="DYLD_LIBRARY_PATH"
-%endif
+
+export OS_SHAREDFLAGS="-shared -Wl,-E"
+export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
+export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
+export OS_CXXFLAGS="-Werror=overflow"
+
 
 # Then handle OS + architecture specific options (maybe we should enable more
 # aggressive optimizations for amd64 as well??)
-%ifos darwin
-    export ARCH_CXXFLAGS="-arch x86_64"
-    export ARCH_SHAREDFLAGS="-arch x86_64"
-    export ARCH_LIB64DIR="lib"
-    export ARCH_LD_UNIT="-r"
-%else
-    # For some reason on mac, some of the header do not compile if this is
-    # defined.  Ignore for now.
-    export ARCH_LIB64DIR="lib64"
-    export ARCH_LD_UNIT="-r -z muldefs"
-%endif
+# For some reason on mac, some of the header do not compile if this is
+# defined.  Ignore for now.
+export ARCH_LIB64DIR="lib64"
+export ARCH_LD_UNIT="-r -z muldefs"
 
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
