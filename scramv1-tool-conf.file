@@ -26,7 +26,7 @@ Source: none
     echo "  Copied $bxml" \
   done \
   tool_script=${TOOLFILES_ROOT}/toolfiles/$tool/$(echo $tool | tr '[A-Z]' '[a-z]').sh \
-  if [ -f $tool_script ]; then $($tool_script %i/tools/selected); fi
+  if [ -f $tool_script ]; then ($tool_script %i/tools/selected); fi
 %prep
 %build
 
@@ -50,7 +50,8 @@ mkdir -p %i/tools/selected %i/tools/available
 %endif
 
 %if "%{?package_vectorization}" != ""
-PKG_VECTORIZATION=%package_vectorization
+PKG_VECTORIZATION=`echo %package_vectorization`
+export PKG_VECTORIZATION
 %endif
 
 COMP_ARCH_SPECIFIC_FLAGS=""
@@ -63,6 +64,7 @@ COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields"
 %ifarch ppc64le
 COMP_ARCH_SPECIFIC_FLAGS="-fsigned-char -fsigned-bitfields %ppc64le_build_flags"
 %endif
+export COMP_ARCH_SPECIFIC_FLAGS
 
 DoneTools=" "
 SkipTools=
