@@ -1,7 +1,7 @@
 ### RPM cms toolfiles 1.0
 
 %define branch main
-%define tag c7ee117554b97e9bed06ae7be4e07c956cbd3dce
+%define tag b084843fdeca68156d707b7610ea0c357b103487
 %define github_user mrodozov
 %define github_repo toolfiles
 

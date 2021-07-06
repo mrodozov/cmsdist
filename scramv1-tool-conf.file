@@ -17,10 +17,9 @@ Source: none
     [ -f %i/tools/selected/$bxml ] && continue \
     [ -f %i/tools/available/$bxml ] && continue \
     cp $xml %i/tools/selected/${bxml} \
-    export TOOL_ROOT=`echo $toolbase` \
-    export TOOL_VERSION=`eval echo \\\\$${uctool}_VERSION` \
-    perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/tools/selected/${bxml} \
-    unset TOOL_ROOT TOOL_VERSION \
+    T_VERSION=`eval echo \\\\$${uctool}_VERSION` \
+    sed -i -e 's|@TOOL_ROOT@|'"$toolbase"'|g' %i/tools/selected/${bxml} \
+    sed -i -e 's|@TOOL_VERSION@|'"$T_VERSION"'|g' %i/tools/selected/${bxml} \
     echo "  Copied $bxml" \
   done \
   tool_script=${TOOLFILES_ROOT}/toolfiles/$tool/$(echo $tool | tr '[A-Z]' '[a-z]').sh \
