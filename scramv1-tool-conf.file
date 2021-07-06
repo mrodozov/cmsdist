@@ -19,8 +19,6 @@ Source: none
     cp $xml %i/tools/selected/${bxml} \
     export TOOL_ROOT=`echo $toolbase` \
     export TOOL_VERSION=`eval echo \\\\$${uctool}_VERSION` \
-    #tool_script=${xml%'.xml'}'.sh' \
-    #if [ -f ${tool_script} ]; then $(${tool_script} %i/tools/selected/${bxml});fi \
     perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' %i/tools/selected/${bxml} \
     unset TOOL_ROOT TOOL_VERSION \
     echo "  Copied $bxml" \
