@@ -5,7 +5,7 @@
 ## INSTALL_DEPENDENCIES cmsLHEtoEOSManager gcc-fixincludes cmssw-osenv cms-git-tools
 ## UPLOAD_DEPENDENCIES dqmgui
 
-BuildRequires: toolfiles
+BuildRequires: scram-tools
 Requires: gcc
 Requires: herwig
 Requires: libpng
@@ -17,6 +17,7 @@ Requires: zstd
 Requires: intel-vtune
 Requires: das_client
 Requires: llvm
+Requires: boost
 
 %define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler rivet2 opencl opencl-cpp nvidia-drivers intel-vtune jemalloc-debug
 

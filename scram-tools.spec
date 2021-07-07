@@ -1,9 +1,9 @@
-### RPM cms toolfiles 1.0
+### RPM cms scram-tools 1.0
 
 %define branch main
-%define tag b084843fdeca68156d707b7610ea0c357b103487
-%define github_user mrodozov
-%define github_repo toolfiles
+%define tag 33e20671985a2b7774681adcdfce655c0186b650
+%define github_user cmss-sw
+%define github_repo %{n}
 
 Source: git+https://github.com/%{github_user}/%{github_repo}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 

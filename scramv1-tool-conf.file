@@ -8,11 +8,11 @@ Source: none
 %define CheckScramTools \
   uctool=`echo $tool | tr '[a-z-]' '[A-Z_]'` \
   toolbase=`eval echo \\\\$${uctool}_ROOT` \
-  [ -d ${TOOLFILES_ROOT}/toolfiles/$tool ] || continue
+  [ -d ${SCRAM_TOOLS_ROOT}/scram-tools/$tool ] || continue
 
 %define CopyScramTools \
   echo ">> Copying tool files from: $tool" \
-  for xml in $(find ${TOOLFILES_ROOT}/toolfiles/$tool -type f -name "*.xml") ; do \
+  for xml in $(find ${SCRAM_TOOLS_ROOT}/scram-tools/$tool -type f -name "*.xml") ; do \
     bxml=$(basename $xml | tr '[A-Z]' '[a-z]') \
     [ -f %i/tools/selected/$bxml ] && continue \
     [ -f %i/tools/available/$bxml ] && continue \
@@ -22,7 +22,7 @@ Source: none
     sed -i -e 's|@TOOL_VERSION@|'"$T_VERSION"'|g' %i/tools/selected/${bxml} \
     echo "  Copied $bxml" \
   done \
-  tool_script=${TOOLFILES_ROOT}/toolfiles/$tool/$(echo $tool | tr '[A-Z]' '[a-z]').sh \
+  tool_script=${SCRAM_TOOLS_ROOT}/scram-tools/$tool/$(echo $tool | tr '[A-Z]' '[a-z]').sh \
   if [ -f $tool_script ]; then ($tool_script %i/tools/selected); fi
 %prep
 %build
